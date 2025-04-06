@@ -6,347 +6,346 @@
   <title>Custom Mech Designer</title>
   <style>
     body {
-      background-color: #1c1c1c;
-      color: #d4af37; /* Gold color */
       font-family: Arial, sans-serif;
+      background-color: #2e2e2e;
+      color: white;
       margin: 0;
       padding: 0;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 36px;
-      color: #d4af37;
-      margin: 20px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
 
     .container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
+      background-color: #383838;
       padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 1200px;
+    }
+
+    h1, h2 {
+      color: #3b8c3a;
+    }
+
+    h3 {
+      color: #b5d46a;
     }
 
     .section {
-      background-color: #333;
-      padding: 15px;
-      border-radius: 10px;
-      width: 100%;
-      box-sizing: border-box;
+      margin-bottom: 20px;
     }
 
-    select, input[type="text"], button {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 2px solid #d4af37;
-      background-color: #222;
-      color: #d4af37;
+    .part-selectors {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .part-selector {
+      padding: 5px;
+      background-color: #4e4e4e;
+      color: #fff;
+      border: 1px solid #3b8c3a;
       border-radius: 5px;
     }
 
+    .stats p {
+      color: #b5d46a;
+    }
+
     button {
+      padding: 10px;
+      background-color: #3b8c3a;
+      color: white;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
-      font-weight: bold;
     }
 
     button:hover {
-      background-color: #d4af37;
-      color: #222;
+      background-color: #6fae6b;
     }
 
-    .stats {
-      margin-top: 20px;
+    input[type="text"], input[type="number"], select {
       padding: 10px;
+      background-color: #4e4e4e;
+      color: white;
+      border: 1px solid #3b8c3a;
+      border-radius: 5px;
+    }
+
+    .weather-effects {
       background-color: #444;
-      border-radius: 8px;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 20px;
     }
 
-    .stats h3 {
-      font-size: 24px;
-      color: #d4af37;
-    }
-
-    .stats p {
-      font-size: 18px;
-    }
   </style>
 </head>
 <body>
-  <h1>Custom Mech Designer</h1>
-  
   <div class="container">
-    <!-- Mech Designer Part -->
+    <h1>Custom Mech Designer</h1>
+
+    <!-- Mech Designer Section -->
     <div class="section">
       <h2>Mech Designer</h2>
-      <label for="mech-head">Head:</label>
-      <select id="mech-head"></select>
 
-      <label for="mech-torso">Torso:</label>
-      <select id="mech-torso"></select>
-
-      <label for="mech-left-arm">Left Arm:</label>
-      <select id="mech-left-arm"></select>
-
-      <label for="mech-right-arm">Right Arm:</label>
-      <select id="mech-right-arm"></select>
-
-      <label for="mech-legs">Legs:</label>
-      <select id="mech-legs"></select>
-    </div>
-
-    <!-- Mech Statistics -->
-    <div class="section">
-      <h2>Mech Statistics</h2>
-      <div class="stats" id="mech-stats">
-        <h3>Stats</h3>
-        <p>Armor: 100</p>
-        <p>Speed: 50</p>
-        <p>Firepower: 70</p>
-        <p>Heat: 0</p>
-        <p>Max Heat: 100</p>
+      <!-- Head Section -->
+      <div class="part-selectors">
+        <label for="head-select">Head:</label>
+        <select id="head-select" class="part-selector" onchange="onPartSelected(event)">
+          <option value="">Select Head</option>
+        </select>
       </div>
-      <button onclick="saveMech()">Save Mech</button>
-      <button onclick="loadMech()">Load Mech</button>
-      <input type="file" id="fileInput" style="margin-top: 10px;" onchange="handleFileSelect(event)" />
-      <button onclick="exportToJSON()">Export to JSON</button>
-      <button onclick="exportToTXT()">Export to TXT</button>
+
+      <!-- Torso Section -->
+      <div class="part-selectors">
+        <label for="torso-select">Torso:</label>
+        <select id="torso-select" class="part-selector" onchange="onPartSelected(event)">
+          <option value="">Select Torso</option>
+        </select>
+      </div>
+
+      <!-- Left Arm Section -->
+      <div class="part-selectors">
+        <label for="left-arm-select">Left Arm:</label>
+        <select id="left-arm-select" class="part-selector" onchange="onPartSelected(event)">
+          <option value="">Select Left Arm</option>
+        </select>
+      </div>
+
+      <!-- Right Arm Section -->
+      <div class="part-selectors">
+        <label for="right-arm-select">Right Arm:</label>
+        <select id="right-arm-select" class="part-selector" onchange="onPartSelected(event)">
+          <option value="">Select Right Arm</option>
+        </select>
+      </div>
+
+      <!-- Legs Section -->
+      <div class="part-selectors">
+        <label for="legs-select">Legs:</label>
+        <select id="legs-select" class="part-selector" onchange="onPartSelected(event)">
+          <option value="">Select Legs</option>
+        </select>
+      </div>
+
+      <!-- Stats Display Section -->
+      <div class="stats">
+        <h3>Part Stats</h3>
+        <p id="armor-stat">Total Armor: 0</p>
+        <p id="speed-stat">Speed: 0</p>
+        <p id="firepower-stat">Firepower: 0</p>
+        <p id="heat-stat">Heat: 0</p>
+      </div>
     </div>
 
-    <!-- Weather Effects -->
+    <!-- Custom Part Designer Section -->
     <div class="section">
+      <h2>Custom Part Designer</h2>
+      <input type="text" id="part-name" placeholder="Part Name">
+      <input type="number" id="part-armor" placeholder="Armor">
+      <input type="number" id="part-speed" placeholder="Speed">
+      <input type="number" id="part-firepower" placeholder="Firepower">
+      <input type="number" id="part-heat" placeholder="Heat">
+      <select id="part-section">
+        <option value="Head">Head</option>
+        <option value="Torso">Torso</option>
+        <option value="Arms">Arms</option>
+        <option value="Legs">Legs</option>
+      </select>
+      <input type="number" id="part-ac" placeholder="AC Value">
+      <button onclick="addCustomPart()">Add Custom Part</button>
+    </div>
+
+    <!-- Save and Load Section -->
+    <div class="section">
+      <h2>Save and Load Design</h2>
+      <button onclick="saveMechDesign()">Save Design</button>
+      <input type="file" id="load-file" accept=".json" onchange="loadMechDesign(event)">
+    </div>
+
+    <!-- Weather Effects Section -->
+    <div class="section weather-effects">
       <h2>Weather Effects</h2>
-      <label for="weather">Choose weather:</label>
-      <select id="weather" onchange="applyWeather()">
-        <option value="Clear">Clear</option>
-        <option value="Rain">Rain</option>
-        <option value="Snow">Snow</option>
-        <option value="Thunderstorm">Thunderstorm</option>
-        <option value="Sunny">Sunny</option>
+      <select id="weather-select" onchange="applyWeatherEffects()">
+        <option value="clear">Clear</option>
+        <option value="rain">Rain Storm</option>
+        <option value="hail">Hail Storm</option>
+        <option value="snow">Snow Storm</option>
+        <option value="lightning">Lightning Storm</option>
       </select>
-    </div>
-
-    <!-- Faction Buffs and Debuffs -->
-    <div class="section">
-      <h2>Faction Buffs and Debuffs</h2>
-      <label for="faction">Choose faction:</label>
-      <select id="faction" onchange="applyFaction()">
-        <option value="None">None</option>
-        <option value="Armor Boost">Armor Boost</option>
-        <option value="Speed Boost">Speed Boost</option>
-        <option value="Heat Reduction">Heat Reduction</option>
-      </select>
+      <div id="weather-modifiers">
+        <p id="weather-modifier-armor">Armor: 0%</p>
+        <p id="weather-modifier-speed">Speed: 0%</p>
+        <p id="weather-modifier-firepower">Firepower: 0%</p>
+        <p id="weather-modifier-heat">Heat: 0%</p>
+      </div>
     </div>
   </div>
 
   <script>
-    const originalStats = {
-      armor: 100,
-      speed: 50,
-      firepower: 70,
-      heat: 0,
-      maxHeat: 100,
+    const parts = [
+      { name: "Light Head", type: "Head", armor: 50, speed: 0, firepower: 0, heat: 5, ac: 10 },
+      { name: "Heavy Head", type: "Head", armor: 100, speed: 0, firepower: 0, heat: 10, ac: 12 },
+      { name: "Light Torso", type: "Torso", armor: 80, speed: 0, firepower: 20, heat: 5, ac: 15 },
+      { name: "Heavy Torso", type: "Torso", armor: 120, speed: 0, firepower: 30, heat: 15, ac: 18 },
+      { name: "Light Left Arm", type: "Arms", armor: 40, speed: 10, firepower: 10, heat: 5, ac: 6 },
+      { name: "Heavy Left Arm", type: "Arms", armor: 60, speed: 0, firepower: 20, heat: 10, ac: 8 },
+      { name: "Light Right Arm", type: "Arms", armor: 40, speed: 10, firepower: 10, heat: 5, ac: 6 },
+      { name: "Heavy Right Arm", type: "Arms", armor: 60, speed: 0, firepower: 20, heat: 10, ac: 8 },
+      { name: "Light Legs", type: "Legs", armor: 40, speed: 20, firepower: 0, heat: 5, ac: 5 },
+      { name: "Heavy Legs", type: "Legs", armor: 80, speed: 10, firepower: 0, heat: 15, ac: 10 }
+    ];
+
+    let selectedParts = {
+      head: null,
+      torso: null,
+      leftArm: null,
+      rightArm: null,
+      legs: null
     };
 
-    let currentStats = { ...originalStats };
-    let currentWeather = "Clear";
-    let currentFaction = "None";
+    let weatherModifiers = {
+      clear: { armor: 0, speed: 0, firepower: 0, heat: 0 },
+      rain: { armor: -10, speed: -10, firepower: 0, heat: 0 },
+      hail: { armor: -20, speed: -20, firepower: -10, heat: 0 },
+      snow: { armor: -15, speed: -30, firepower: 0, heat: 5 },
+      lightning: { armor: -25, speed: -10, firepower: -20, heat: 10 }
+    };
 
-    function updateStatsDisplay() {
-      document.getElementById("mech-stats").innerHTML =
-        `<h3>Stats</h3>
-        <p>Armor: ${currentStats.armor}</p>
-        <p>Speed: ${currentStats.speed}</p>
-        <p>Firepower: ${currentStats.firepower}</p>
-        <p>Heat: ${currentStats.heat}</p>
-        <p>Max Heat: ${currentStats.maxHeat}</p>`;
-    }
+    let currentWeather = 'clear';
 
-    async function fetchMechPartsFromSheet() {
-      const sheetURL = "https://script.google.com/macros/s/AKfycbxUZ5XGsQNNZqJVgIm5sN5tuV-tzeEkwBeKaFymy_D6YJVoA88g6NmrzBEr1UaWYJke/exec";  // Replace with your actual URL
-      try {
-        const response = await fetch(sheetURL);
-        const data = await response.json();
-        populatePartSelects(data);
-      } catch (error) {
-        console.error("Error fetching mech parts:", error);
-      }
-    }
-	function addCustomPart() {
-  const partName = document.getElementById("part-name").value;
-  const partType = document.getElementById("part-type").value;
-  const armType = document.getElementById("arm-type").value; // Only if applicable
-  const stats = document.getElementById("part-stats").value;
-  const additionalInfo = document.getElementById("part-info").value;
-
-  const partData = {
-    name: partName,
-    type: partType,
-    armType: armType,
-    stats: stats,
-    additionalInfo: additionalInfo
-  };
-
-  google.script.run.updateMechPart(partData); // Send data to Google Sheets
-
-  alert("Part added successfully!");
-}
-
-    function populatePartSelects(data) {
-      const headSelect = document.getElementById("mech-head");
-      const torsoSelect = document.getElementById("mech-torso");
-      const leftArmSelect = document.getElementById("mech-left-arm");
-      const rightArmSelect = document.getElementById("mech-right-arm");
-      const legsSelect = document.getElementById("mech-legs");
-
-      data.forEach(part => {
-        const option = document.createElement("option");
-        option.value = part['Part Name'];
-        option.textContent = part['Part Name'];
-
-        if (part['Part Type'] === 'Head') headSelect.appendChild(option);
-        else if (part['Part Type'] === 'Torso') torsoSelect.appendChild(option);
-        else if (part['Part Type'] === 'Arms') {
-          if (part['Arm Type'] === 'Left') leftArmSelect.appendChild(option);
-          if (part['Arm Type'] === 'Right') rightArmSelect.appendChild(option);
-        } else if (part['Part Type'] === 'Legs') legsSelect.appendChild(option);
-      });
-    }
-
-    window.onload = fetchMechPartsFromSheet;
-
-    function saveMech() {
-      const mechData = {
-        stats: currentStats,
-        weather: currentWeather,
-        faction: currentFaction,
+    function populatePartSelects(parts) {
+      const partSelectors = {
+        head: document.getElementById('head-select'),
+        torso: document.getElementById('torso-select'),
+        leftArm: document.getElementById('left-arm-select'),
+        rightArm: document.getElementById('right-arm-select'),
+        legs: document.getElementById('legs-select')
       };
-      localStorage.setItem("savedMech", JSON.stringify(mechData));
-      alert("Mech saved locally!");
-    }
 
-    function loadMech() {
-      const data = localStorage.getItem("savedMech");
-      if (data) {
-        const loadedMech = JSON.parse(data);
-        currentStats = loadedMech.stats;
-        currentWeather = loadedMech.weather;
-        currentFaction = loadedMech.faction;
-
-        document.getElementById("weather").value = currentWeather;
-        document.getElementById("faction").value = currentFaction;
-
-        applyWeather();
-        applyFaction();
-        updateStatsDisplay();
-        alert("Mech loaded!");
-      } else {
-        alert("No saved mech found.");
+      for (const partType in partSelectors) {
+        const select = partSelectors[partType];
+        select.innerHTML = '<option value="">Select ' + partType.charAt(0).toUpperCase() + partType.slice(1) + '</option>';
+        parts.filter(p => p.type.toLowerCase() === partType).forEach(part => {
+          const option = document.createElement("option");
+          option.value = part.name;
+          option.textContent = `${part.name} (AC: ${part.ac})`;
+          select.appendChild(option);
+        });
       }
     }
 
-    function handleFileSelect(event) {
+    function updatePartStats(part) {
+      if (!part) return;
+
+      document.getElementById("armor-stat").textContent = "Total Armor: " + Math.round(part.armor);
+      document.getElementById("speed-stat").textContent = "Speed: " + Math.round(part.speed);
+      document.getElementById("firepower-stat").textContent = "Firepower: " + Math.round(part.firepower);
+      document.getElementById("heat-stat").textContent = "Heat: " + Math.round(part.heat);
+    }
+
+    function onPartSelected(event) {
+      const partType = event.target.id.split('-')[0];
+      const selectedPart = event.target.value;
+
+      selectedParts[partType] = selectedPart;
+
+      if (selectedPart) {
+        const part = parts.find(p => p.name === selectedPart);
+        updatePartStats(part);
+      } else {
+        document.getElementById("armor-stat").textContent = "Total Armor: 0";
+        document.getElementById("speed-stat").textContent = "Speed: 0";
+        document.getElementById("firepower-stat").textContent = "Firepower: 0";
+        document.getElementById("heat-stat").textContent = "Heat: 0";
+      }
+    }
+
+    function applyWeatherEffects() {
+      currentWeather = document.getElementById("weather-select").value;
+      const modifiers = weatherModifiers[currentWeather];
+
+      // Update stats based on weather
+      document.getElementById("weather-modifier-armor").textContent = `Armor: ${modifiers.armor}%`;
+      document.getElementById("weather-modifier-speed").textContent = `Speed: ${modifiers.speed}%`;
+      document.getElementById("weather-modifier-firepower").textContent = `Firepower: ${modifiers.firepower}%`;
+      document.getElementById("weather-modifier-heat").textContent = `Heat: ${modifiers.heat}%`;
+
+      // Apply modifiers to final stats
+      const armor = Math.round(parseInt(document.getElementById("armor-stat").textContent.split(":")[1].trim()));
+      const speed = Math.round(parseInt(document.getElementById("speed-stat").textContent.split(":")[1].trim()));
+      const firepower = Math.round(parseInt(document.getElementById("firepower-stat").textContent.split(":")[1].trim()));
+      const heat = Math.round(parseInt(document.getElementById("heat-stat").textContent.split(":")[1].trim()));
+
+      document.getElementById("armor-stat").textContent = `Total Armor: ${armor + (armor * modifiers.armor / 100)}`;
+      document.getElementById("speed-stat").textContent = `Speed: ${speed + (speed * modifiers.speed / 100)}`;
+      document.getElementById("firepower-stat").textContent = `Firepower: ${firepower + (firepower * modifiers.firepower / 100)}`;
+      document.getElementById("heat-stat").textContent = `Heat: ${heat + (heat * modifiers.heat / 100)}`;
+    }
+
+    function addCustomPart() {
+      const partName = document.getElementById("part-name").value;
+      const armor = parseInt(document.getElementById("part-armor").value);
+      const speed = parseInt(document.getElementById("part-speed").value);
+      const firepower = parseInt(document.getElementById("part-firepower").value);
+      const heat = parseInt(document.getElementById("part-heat").value);
+      const partType = document.getElementById("part-section").value;
+      const ac = parseInt(document.getElementById("part-ac").value);
+
+      if (partName && armor && speed && firepower && heat && ac) {
+        parts.push({ name: partName, type: partType, armor, speed, firepower, heat, ac });
+
+        alert("Custom part added!");
+
+        populatePartSelects(parts);
+      }
+    }
+
+    function saveMechDesign() {
+      const design = {
+        selectedParts,
+        parts
+      };
+
+      const blob = new Blob([JSON.stringify(design, null, 2)], { type: "application/json" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "mech_design.json";
+      link.click();
+    }
+
+    function loadMechDesign(event) {
       const file = event.target.files[0];
-      if (file && file.name.endsWith(".json")) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          try {
-            const mechData = JSON.parse(e.target.result);
-            currentStats = mechData.stats;
-            currentWeather = mechData.weather;
-            currentFaction = mechData.faction;
+      const reader = new FileReader();
 
-            document.getElementById("weather").value = currentWeather;
-            document.getElementById("faction").value = currentFaction;
+      reader.onload = function () {
+        const design = JSON.parse(reader.result);
 
-            applyWeather();
-            applyFaction();
-            updateStatsDisplay();
-            alert("Mech loaded from file!");
-          } catch (error) {
-            alert("Failed to load mech data. Invalid file format.");
-            console.error(error);
+        parts.length = 0;
+        parts.push(...design.parts);
+
+        selectedParts = design.selectedParts;
+
+        populatePartSelects(parts);
+
+        for (const [key, value] of Object.entries(selectedParts)) {
+          if (value) {
+            document.getElementById(`${key}-select`).value = value;
+            const part = parts.find(p => p.name === value);
+            updatePartStats(part);
           }
-        };
-        reader.readAsText(file);
-      } else {
-        alert("Please select a valid JSON file.");
-      }
-    }
-
-    function exportToJSON() {
-      const mechData = {
-        stats: currentStats,
-        weather: currentWeather,
-        faction: currentFaction,
+        }
       };
-      const json = JSON.stringify(mechData, null, 2);
-      const blob = new Blob([json], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'mech.json';
-      a.click();
-      URL.revokeObjectURL(url);
+
+      reader.readAsText(file);
     }
 
-    function exportToTXT() {
-      const txt = `Mech Design:\n\nPart: ${currentStats.head}\nArmor: ${currentStats.armor}\nSpeed: ${currentStats.speed}\nFirepower: ${currentStats.firepower}\nHeat: ${currentStats.heat}\nMax Heat: ${currentStats.maxHeat}`;
-      const blob = new Blob([txt], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'mech.txt';
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    function applyWeather() {
-      const weather = document.getElementById("weather").value;
-      resetStats();
-
-      currentWeather = weather;
-
-      switch (weather) {
-        case "Rain":
-          currentStats.speed -= 5;
-          break;
-        case "Snow":
-          currentStats.speed -= 10;
-          break;
-        case "Thunderstorm":
-          currentStats.armor -= 10;
-          break;
-        case "Sunny":
-          currentStats.speed += 5;
-          break;
-      }
-
-      updateStatsDisplay();
-    }
-
-    function resetStats() {
-      currentStats = { ...originalStats };
-    }
-
-    function applyFaction() {
-      const faction = document.getElementById("faction").value;
-      currentFaction = faction;
-
-      switch (faction) {
-        case "Armor Boost":
-          currentStats.armor += 20;
-          break;
-        case "Speed Boost":
-          currentStats.speed += 10;
-          break;
-        case "Heat Reduction":
-          currentStats.maxHeat += 20;
-          break;
-      }
-
-      updateStatsDisplay();
-    }
+    populatePartSelects(parts);
   </script>
 </body>
 </html>
