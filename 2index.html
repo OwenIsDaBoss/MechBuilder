@@ -1,306 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Custom Mech Designer</title>
   <style>
     body {
+      background-color: #1c1c1c;
+      color: #d4af37; /* Gold color */
       font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      margin: 0;
-      padding: 0;
     }
-    .container {
-      width: 95%;
-      max-width: 1300px;
-      margin: 20px auto;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    h1, h2, h3 {
+
+    h1 {
       text-align: center;
+      font-size: 36px;
+      color: #d4af37;
     }
-    .row {
+
+    .container {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 20px;
+      justify-content: space-around;
     }
-    .block {
-      flex: 1;
-      min-width: 300px;
-      background: #eef1f5;
+
+    .section {
+      background-color: #333;
+      margin: 10px;
       padding: 15px;
+      border-radius: 10px;
+      width: 45%;
+    }
+
+    select, input[type="text"], button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 2px solid #d4af37;
+      background-color: #222;
+      color: #d4af37;
+      border-radius: 5px;
+    }
+
+    button {
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #d4af37;
+      color: #222;
+    }
+
+    .stats {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #444;
       border-radius: 8px;
     }
-    select, input, button, textarea {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      font-size: 16px;
+
+    .stats h3 {
+      font-size: 24px;
+      color: #d4af37;
     }
-    button {
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-    }
-    .stat-line {
-      margin: 6px 0;
-    }
-    .button-row {
-      text-align: center;
-      margin-top: 20px;
+
+    .stats p {
+      font-size: 18px;
     }
   </style>
 </head>
 <body>
+  <h1>Custom Mech Designer</h1>
+  
   <div class="container">
-    <h1>Custom Mech Designer</h1>
+    <!-- Mech Designer Part -->
+    <div class="section">
+      <h2>Mech Designer</h2>
+      <label for="mech-head">Head:</label>
+      <select id="mech-head"></select>
 
-    <div class="row">
-      <div class="block">
-        <h2>Mech Part Selection</h2>
-        <label>Head:</label>
-        <select id="headSelector"></select>
+      <label for="mech-torso">Torso:</label>
+      <select id="mech-torso"></select>
 
-        <label>Torso:</label>
-        <select id="torsoSelector"></select>
+      <label for="mech-arms">Arms:</label>
+      <select id="mech-arms"></select>
 
-        <label>Arms:</label>
-        <select id="armsSelector"></select>
-
-        <label>Legs:</label>
-        <select id="legsSelector"></select>
-
-        <label><input type="checkbox" id="damageHead"> Head Damaged</label>
-        <label><input type="checkbox" id="damageTorso"> Torso Damaged</label>
-        <label><input type="checkbox" id="damageArms"> Arms Damaged</label>
-        <label><input type="checkbox" id="damageLegs"> Legs Damaged</label>
-      </div>
-
-      <div class="block">
-        <h2>Mech Statistics</h2>
-        <p class="stat-line">Speed: <span id="speed">0</span></p>
-        <p class="stat-line">Armor: <span id="armor">0</span></p>
-        <p class="stat-line">Firepower: <span id="firepower">0</span></p>
-        <p class="stat-line">Heat: <span id="totalHeat">0</span></p>
-        <p id="overheatWarning" style="color:red;"></p>
-      </div>
+      <label for="mech-legs">Legs:</label>
+      <select id="mech-legs"></select>
     </div>
 
-    <div class="row">
-      <div class="block">
-        <h2>Custom Part Designer</h2>
-        <label>Part Type:</label>
-        <select id="customPartType">
-          <option value="head">Head</option>
-          <option value="torso">Torso</option>
-          <option value="arms">Arms</option>
-          <option value="legs">Legs</option>
-        </select>
-
-        <label>Part Name:</label>
-        <input type="text" id="customPartName" />
-
-        <label>Armor:</label>
-        <input type="number" id="customArmor" />
-
-        <label>Firepower:</label>
-        <input type="number" id="customFirepower" />
-
-        <label>Speed:</label>
-        <input type="number" id="customSpeed" />
-
-        <label>Heat:</label>
-        <input type="number" id="customHeat" />
-
-        <button onclick="addCustomPart()">Add Part</button>
+    <!-- Mech Statistics -->
+    <div class="section">
+      <h2>Mech Statistics</h2>
+      <div class="stats" id="mech-stats">
+        <h3>Stats</h3>
+        <p>Armor: 100</p>
+        <p>Speed: 50</p>
+        <p>Firepower: 70</p>
+        <p>Heat: 0</p>
+        <p>Max Heat: 100</p>
       </div>
-
-      <div class="block">
-        <h2>Heat Management</h2>
-        <p>Manage overheating, power limits, and cooling systems (planned features).</p>
-        <p class="stat-line">Max Heat Threshold: 30</p>
-        <p class="stat-line">Overheating reduces all stats and risks module loss.</p>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="block">
-        <h2>Weather Effects</h2>
-        <select id="weather" onchange="updateStats()">
-          <option value="none">Clear</option>
-          <option value="rain">Rain</option>
-          <option value="thunderstorm">Thunderstorm</option>
-          <option value="snow">Snow</option>
-          <option value="heatwave">Heatwave</option>
-        </select>
-      </div>
-
-      <div class="block">
-        <h2>Faction Buffs/Debuffs</h2>
-        <label>Buff:</label>
-        <input type="text" id="factionBuff" placeholder="e.g. +2 Firepower" />
-        <label>Debuff:</label>
-        <input type="text" id="factionDebuff" placeholder="e.g. -1 Speed" />
-      </div>
-    </div>
-
-    <div class="button-row">
-      <button onclick="saveBuild()">💾 Save Build</button>
-      <button onclick="loadBuild()">📂 Load Build</button>
-      <button onclick="exportBuild()">📤 Export JSON</button>
-      <button onclick="window.print()">🖨️ Print Sheet</button>
+      <button onclick="saveMech()">Save Mech</button>
+      <button onclick="loadMech()">Load Mech</button>
+      <input type="file" id="fileInput" style="margin-top: 10px;" onchange="handleFileSelect(event)" />
+      <button onclick="exportToJSON()">Export to JSON</button>
+      <button onclick="exportToTXT()">Export to TXT</button>
     </div>
   </div>
 
+  <!-- Weather Effects -->
+  <div class="section">
+    <h2>Weather Effects</h2>
+    <label for="weather">Choose weather:</label>
+    <select id="weather" onchange="applyWeather()">
+      <option value="Clear">Clear</option>
+      <option value="Rain">Rain</option>
+      <option value="Snow">Snow</option>
+      <option value="Thunderstorm">Thunderstorm</option>
+      <option value="Sunny">Sunny</option>
+    </select>
+  </div>
+
+  <!-- Faction Buffs and Debuffs -->
+  <div class="section">
+    <h2>Faction Buffs and Debuffs</h2>
+    <label for="faction">Choose faction:</label>
+    <select id="faction" onchange="applyFaction()">
+      <option value="None">None</option>
+      <option value="Armor Boost">Armor Boost</option>
+      <option value="Speed Boost">Speed Boost</option>
+      <option value="Heat Reduction">Heat Reduction</option>
+    </select>
+  </div>
+
   <script>
-    const partsData = {
-      head: [{ name: "Standard Head", heat: 5, stats: { armor: 10, firepower: 0, speed: 0 } }],
-      torso: [{ name: "Standard Torso", heat: 10, stats: { armor: 20, firepower: 5, speed: 0 } }],
-      arms: [{ name: "Light Arms", heat: 4, stats: { armor: 5, firepower: 10, speed: 2 } }],
-      legs: [{ name: "Standard Legs", heat: 3, stats: { armor: 5, firepower: 0, speed: 5 } }]
+    const originalStats = {
+      armor: 100,
+      speed: 50,
+      firepower: 70,
+      heat: 0,
+      maxHeat: 100,
     };
 
-    function populateSelectors() {
-      for (let partType in partsData) {
-        const selector = document.getElementById(`${partType}Selector`);
-        partsData[partType].forEach((part, i) => {
-          const opt = document.createElement("option");
-          opt.value = i;
-          opt.textContent = part.name;
-          selector.appendChild(opt);
-        });
-        selector.addEventListener("change", updateStats);
+    let currentStats = { ...originalStats };
+
+    // Variables to store weather and faction choices
+    let currentWeather = "Clear";
+    let currentFaction = "None";
+
+    // Update the Mech Stats Display
+    function updateStatsDisplay() {
+      document.getElementById("mech-stats").innerHTML =
+        `<h3>Stats</h3>
+        <p>Armor: ${currentStats.armor}</p>
+        <p>Speed: ${currentStats.speed}</p>
+        <p>Firepower: ${currentStats.firepower}</p>
+        <p>Heat: ${currentStats.heat}</p>
+        <p>Max Heat: ${currentStats.maxHeat}</p>`;
+    }
+
+    // Fetch Mech Parts from Google Sheets
+    async function fetchMechPartsFromSheet() {
+      const sheetURL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";  // Replace with your actual URL
+      try {
+        const response = await fetch(sheetURL);
+        const data = await response.json();
+        populatePartSelects(data);
+      } catch (error) {
+        console.error("Error fetching mech parts:", error);
       }
     }
 
-    function getSelectedPart(type) {
-      const index = document.getElementById(`${type}Selector`).value;
-      return partsData[type][index];
-    }
+    // Populate dropdowns with parts data from Google Sheets
+    function populatePartSelects(data) {
+      const headSelect = document.getElementById("mech-head");
+      const torsoSelect = document.getElementById("mech-torso");
+      const armsSelect = document.getElementById("mech-arms");
+      const legsSelect = document.getElementById("mech-legs");
 
-    function getWeatherModifier() {
-      const weather = document.getElementById("weather").value;
-      const mods = {
-        rain: { speed: -1 },
-        thunderstorm: { firepower: -2 },
-        snow: { speed: -2 },
-        heatwave: { heat: +5 },
-        none: {}
-      };
-      return mods[weather] || {};
-    }
+      data.forEach(part => {
+        const option = document.createElement("option");
+        option.value = part['Part Name'];
+        option.textContent = part['Part Name'];
 
-    function updateStats() {
-      let speed = 0, armor = 0, firepower = 0, heat = 0;
-      const weatherMod = getWeatherModifier();
-
-      ["head", "torso", "arms", "legs"].forEach(part => {
-        const partData = getSelectedPart(part);
-        const damaged = document.getElementById(`damage${part.charAt(0).toUpperCase() + part.slice(1)}`).checked;
-        const multiplier = damaged ? 0.5 : 1;
-
-        speed += partData.stats.speed * multiplier;
-        armor += partData.stats.armor * multiplier;
-        firepower += partData.stats.firepower * multiplier;
-        heat += partData.heat;
+        if (part['Part Type'] === 'Head') headSelect.appendChild(option);
+        else if (part['Part Type'] === 'Torso') torsoSelect.appendChild(option);
+        else if (part['Part Type'] === 'Arms') armsSelect.appendChild(option);
+        else if (part['Part Type'] === 'Legs') legsSelect.appendChild(option);
       });
-
-      if (weatherMod.speed) speed += weatherMod.speed;
-      if (weatherMod.firepower) firepower += weatherMod.firepower;
-      if (weatherMod.heat) heat += weatherMod.heat;
-
-      document.getElementById("speed").textContent = speed;
-      document.getElementById("armor").textContent = armor;
-      document.getElementById("firepower").textContent = firepower;
-      document.getElementById("totalHeat").textContent = heat;
-      document.getElementById("overheatWarning").textContent = heat > 30 ? "Warning: OVERHEATING!" : "";
     }
 
-    function addCustomPart() {
-      const type = document.getElementById("customPartType").value;
-      const name = document.getElementById("customPartName").value;
-      const armor = parseInt(document.getElementById("customArmor").value) || 0;
-      const firepower = parseInt(document.getElementById("customFirepower").value) || 0;
-      const speed = parseInt(document.getElementById("customSpeed").value) || 0;
-      const heat = parseInt(document.getElementById("customHeat").value) || 0;
+    // Call fetch function on page load
+    window.onload = fetchMechPartsFromSheet;
 
-      const part = { name, heat, stats: { armor, firepower, speed } };
-      partsData[type].push(part);
-
-      const option = document.createElement("option");
-      option.value = partsData[type].length - 1;
-      option.textContent = name;
-      document.getElementById(`${type}Selector`).appendChild(option);
-      alert("Custom part added!");
-    }
-
-    function saveBuild() {
-      const build = {
-        selections: {
-          head: document.getElementById("headSelector").value,
-          torso: document.getElementById("torsoSelector").value,
-          arms: document.getElementById("armsSelector").value,
-          legs: document.getElementById("legsSelector").value
-        },
-        damaged: {
-          head: document.getElementById("damageHead").checked,
-          torso: document.getElementById("damageTorso").checked,
-          arms: document.getElementById("damageArms").checked,
-          legs: document.getElementById("damageLegs").checked
-        },
-        weather: document.getElementById("weather").value,
-        buff: document.getElementById("factionBuff").value,
-        debuff: document.getElementById("factionDebuff").value
+    // Save Mech to Local Storage
+    function saveMech() {
+      const mechData = {
+        stats: currentStats,
+        weather: currentWeather,
+        faction: currentFaction,
       };
-      localStorage.setItem("mechBuild", JSON.stringify(build));
-      alert("Build saved locally!");
+      localStorage.setItem("savedMech", JSON.stringify(mechData));
+      alert("Mech saved locally!");
     }
 
-    function loadBuild() {
-      const build = JSON.parse(localStorage.getItem("mechBuild"));
-      if (!build) return alert("No saved build found!");
+    // Load Mech from Local Storage
+    function loadMech() {
+      const data = localStorage.getItem("savedMech");
+      if (data) {
+        const loadedMech = JSON.parse(data);
+        currentStats = loadedMech.stats;
+        currentWeather = loadedMech.weather;
+        currentFaction = loadedMech.faction;
 
-      document.getElementById("headSelector").value = build.selections.head;
-      document.getElementById("torsoSelector").value = build.selections.torso;
-      document.getElementById("armsSelector").value = build.selections.arms;
-      document.getElementById("legsSelector").value = build.selections.legs;
-      document.getElementById("damageHead").checked = build.damaged.head;
-      document.getElementById("damageTorso").checked = build.damaged.torso;
-      document.getElementById("damageArms").checked = build.damaged.arms;
-      document.getElementById("damageLegs").checked = build.damaged.legs;
-      document.getElementById("weather").value = build.weather;
-      document.getElementById("factionBuff").value = build.buff;
-      document.getElementById("factionDebuff").value = build.debuff;
-      updateStats();
+        document.getElementById("weather").value = currentWeather;
+        document.getElementById("faction").value = currentFaction;
+
+        applyWeather();
+        applyFaction();
+        updateStatsDisplay();
+        alert("Mech loaded!");
+      } else {
+        alert("No saved mech found.");
+      }
     }
 
-    function exportBuild() {
-      const dataStr = JSON.stringify(localStorage.getItem("mechBuild"));
-      const blob = new Blob([dataStr], { type: "application/json" });
+    // Handle File Input and Load Mech from File
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (file && file.name.endsWith(".json")) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          try {
+            const mechData = JSON.parse(e.target.result);
+            currentStats = mechData.stats;
+            currentWeather = mechData.weather;
+            currentFaction = mechData.faction;
+
+            document.getElementById("weather").value = currentWeather;
+            document.getElementById("faction").value = currentFaction;
+
+            applyWeather();
+            applyFaction();
+            updateStatsDisplay();
+            alert("Mech loaded from file!");
+          } catch (error) {
+            alert("Failed to load mech data. Invalid file format.");
+            console.error(error);
+          }
+        };
+        reader.readAsText(file);
+      } else {
+        alert("Please select a valid JSON file.");
+      }
+    }
+
+    // Export Mech to JSON
+    function exportToJSON() {
+      const mechData = {
+        stats: currentStats,
+        weather: currentWeather,
+        faction: currentFaction,
+      };
+      const json = JSON.stringify(mechData, null, 2);
+      const blob = new Blob([json], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
+      const a = document.createElement('a');
       a.href = url;
-      a.download = "mech_build.json";
+      a.download = 'mech.json';
       a.click();
+      URL.revokeObjectURL(url);
     }
 
-    populateSelectors();
-    updateStats();
+    // Export Mech to TXT
+    function exportToTXT() {
+      const txt = `Mech Design:\n\nPart: ${currentStats.head}\nArmor: ${currentStats.armor}\nSpeed: ${currentStats.speed}\nFirepower: ${currentStats.firepower}\nHeat: ${currentStats.heat}\nMax Heat: ${currentStats.maxHeat}`;
+      const blob = new Blob([txt], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'mech.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // Apply Weather Effects
+    function applyWeather() {
+      const weather = document.getElementById("weather").value;
+      resetStats();  // Reset stats before applying new effect
+
+      currentWeather = weather;
+
+      switch (weather) {
+        case "Rain":
+          currentStats.speed -= 5;
+          break;
+        case "Snow":
+          currentStats.speed -= 10;
+          break;
+        case "Thunderstorm":
+          currentStats.armor -= 10;
+          break;
+        case "Sunny":
+          currentStats.speed += 5;
+          break;
+        default:
+          break;
+      }
+      updateStatsDisplay();
+    }
+
+    // Apply Faction Buffs and Debuffs
+    function applyFaction() {
+      const faction = document.getElementById("faction").value;
+      resetStats();  // Reset stats before applying new effect
+
+      currentFaction = faction;
+
+      switch (faction) {
+        case "Armor Boost":
+          currentStats.armor += 20;
+          break;
+        case "Speed Boost":
+          currentStats.speed += 15;
+          break;
+        case "Heat Reduction":
+          currentStats.maxHeat += 20;
+          break;
+        default:
+          break;
+      }
+      updateStatsDisplay();
+    }
+
+    // Reset Stats to Default
+    function resetStats() {
+      currentStats = { ...originalStats };
+    }
   </script>
 </body>
 </html>
