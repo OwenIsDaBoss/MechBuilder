@@ -9,26 +9,30 @@
       background-color: #1c1c1c;
       color: #d4af37; /* Gold color */
       font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
     }
 
     h1 {
       text-align: center;
       font-size: 36px;
       color: #d4af37;
+      margin: 20px 0;
     }
 
     .container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
     }
 
     .section {
       background-color: #333;
-      margin: 10px;
       padding: 15px;
       border-radius: 10px;
-      width: 45%;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     select, input[type="text"], button {
@@ -81,8 +85,11 @@
       <label for="mech-torso">Torso:</label>
       <select id="mech-torso"></select>
 
-      <label for="mech-arms">Arms:</label>
-      <select id="mech-arms"></select>
+      <label for="mech-left-arm">Left Arm:</label>
+      <select id="mech-left-arm"></select>
+
+      <label for="mech-right-arm">Right Arm:</label>
+      <select id="mech-right-arm"></select>
 
       <label for="mech-legs">Legs:</label>
       <select id="mech-legs"></select>
@@ -105,31 +112,31 @@
       <button onclick="exportToJSON()">Export to JSON</button>
       <button onclick="exportToTXT()">Export to TXT</button>
     </div>
-  </div>
 
-  <!-- Weather Effects -->
-  <div class="section">
-    <h2>Weather Effects</h2>
-    <label for="weather">Choose weather:</label>
-    <select id="weather" onchange="applyWeather()">
-      <option value="Clear">Clear</option>
-      <option value="Rain">Rain</option>
-      <option value="Snow">Snow</option>
-      <option value="Thunderstorm">Thunderstorm</option>
-      <option value="Sunny">Sunny</option>
-    </select>
-  </div>
+    <!-- Weather Effects -->
+    <div class="section">
+      <h2>Weather Effects</h2>
+      <label for="weather">Choose weather:</label>
+      <select id="weather" onchange="applyWeather()">
+        <option value="Clear">Clear</option>
+        <option value="Rain">Rain</option>
+        <option value="Snow">Snow</option>
+        <option value="Thunderstorm">Thunderstorm</option>
+        <option value="Sunny">Sunny</option>
+      </select>
+    </div>
 
-  <!-- Faction Buffs and Debuffs -->
-  <div class="section">
-    <h2>Faction Buffs and Debuffs</h2>
-    <label for="faction">Choose faction:</label>
-    <select id="faction" onchange="applyFaction()">
-      <option value="None">None</option>
-      <option value="Armor Boost">Armor Boost</option>
-      <option value="Speed Boost">Speed Boost</option>
-      <option value="Heat Reduction">Heat Reduction</option>
-    </select>
+    <!-- Faction Buffs and Debuffs -->
+    <div class="section">
+      <h2>Faction Buffs and Debuffs</h2>
+      <label for="faction">Choose faction:</label>
+      <select id="faction" onchange="applyFaction()">
+        <option value="None">None</option>
+        <option value="Armor Boost">Armor Boost</option>
+        <option value="Speed Boost">Speed Boost</option>
+        <option value="Heat Reduction">Heat Reduction</option>
+      </select>
+    </div>
   </div>
 
   <script>
@@ -156,7 +163,7 @@
     }
 
     async function fetchMechPartsFromSheet() {
-      const sheetURL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";  // Replace with your actual URL
+      const sheetURL = "https://script.google.com/macros/s/AKfycbxUZ5XGsQNNZqJVgIm5sN5tuV-tzeEkwBeKaFymy_D6YJVoA88g6NmrzBEr1UaWYJke/exec";  // Replace with your actual URL
       try {
         const response = await fetch(sheetURL);
         const data = await response.json();
@@ -165,11 +172,31 @@
         console.error("Error fetching mech parts:", error);
       }
     }
+	function addCustomPart() {
+  const partName = document.getElementById("part-name").value;
+  const partType = document.getElementById("part-type").value;
+  const armType = document.getElementById("arm-type").value; // Only if applicable
+  const stats = document.getElementById("part-stats").value;
+  const additionalInfo = document.getElementById("part-info").value;
+
+  const partData = {
+    name: partName,
+    type: partType,
+    armType: armType,
+    stats: stats,
+    additionalInfo: additionalInfo
+  };
+
+  google.script.run.updateMechPart(partData); // Send data to Google Sheets
+
+  alert("Part added successfully!");
+}
 
     function populatePartSelects(data) {
       const headSelect = document.getElementById("mech-head");
       const torsoSelect = document.getElementById("mech-torso");
-      const armsSelect = document.getElementById("mech-arms");
+      const leftArmSelect = document.getElementById("mech-left-arm");
+      const rightArmSelect = document.getElementById("mech-right-arm");
       const legsSelect = document.getElementById("mech-legs");
 
       data.forEach(part => {
@@ -179,8 +206,10 @@
 
         if (part['Part Type'] === 'Head') headSelect.appendChild(option);
         else if (part['Part Type'] === 'Torso') torsoSelect.appendChild(option);
-        else if (part['Part Type'] === 'Arms') armsSelect.appendChild(option);
-        else if (part['Part Type'] === 'Legs') legsSelect.appendChild(option);
+        else if (part['Part Type'] === 'Arms') {
+          if (part['Arm Type'] === 'Left') leftArmSelect.appendChild(option);
+          if (part['Arm Type'] === 'Right') rightArmSelect.appendChild(option);
+        } else if (part['Part Type'] === 'Legs') legsSelect.appendChild(option);
       });
     }
 
