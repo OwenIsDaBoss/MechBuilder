@@ -142,12 +142,9 @@
     };
 
     let currentStats = { ...originalStats };
-
-    // Variables to store weather and faction choices
     let currentWeather = "Clear";
     let currentFaction = "None";
 
-    // Update the Mech Stats Display
     function updateStatsDisplay() {
       document.getElementById("mech-stats").innerHTML =
         `<h3>Stats</h3>
@@ -158,9 +155,8 @@
         <p>Max Heat: ${currentStats.maxHeat}</p>`;
     }
 
-    // Fetch Mech Parts from Google Sheets
     async function fetchMechPartsFromSheet() {
-      const sheetURL = "https://script.google.com/macros/s/AKfycbwiHdJLEHgJOjVauFDrbMhXXKaW7-7rpf8madlPOlOPEyaTZAboURa8YAZvc3O_3_1v/exec";  // Replace with your actual URL
+      const sheetURL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";  // Replace with your actual URL
       try {
         const response = await fetch(sheetURL);
         const data = await response.json();
@@ -170,7 +166,6 @@
       }
     }
 
-    // Populate dropdowns with parts data from Google Sheets
     function populatePartSelects(data) {
       const headSelect = document.getElementById("mech-head");
       const torsoSelect = document.getElementById("mech-torso");
@@ -189,10 +184,8 @@
       });
     }
 
-    // Call fetch function on page load
     window.onload = fetchMechPartsFromSheet;
 
-    // Save Mech to Local Storage
     function saveMech() {
       const mechData = {
         stats: currentStats,
@@ -203,7 +196,6 @@
       alert("Mech saved locally!");
     }
 
-    // Load Mech from Local Storage
     function loadMech() {
       const data = localStorage.getItem("savedMech");
       if (data) {
@@ -224,7 +216,6 @@
       }
     }
 
-    // Handle File Input and Load Mech from File
     function handleFileSelect(event) {
       const file = event.target.files[0];
       if (file && file.name.endsWith(".json")) {
@@ -254,7 +245,6 @@
       }
     }
 
-    // Export Mech to JSON
     function exportToJSON() {
       const mechData = {
         stats: currentStats,
@@ -271,7 +261,6 @@
       URL.revokeObjectURL(url);
     }
 
-    // Export Mech to TXT
     function exportToTXT() {
       const txt = `Mech Design:\n\nPart: ${currentStats.head}\nArmor: ${currentStats.armor}\nSpeed: ${currentStats.speed}\nFirepower: ${currentStats.firepower}\nHeat: ${currentStats.heat}\nMax Heat: ${currentStats.maxHeat}`;
       const blob = new Blob([txt], { type: 'text/plain' });
@@ -283,10 +272,9 @@
       URL.revokeObjectURL(url);
     }
 
-    // Apply Weather Effects
     function applyWeather() {
       const weather = document.getElementById("weather").value;
-      resetStats();  // Reset stats before applying new effect
+      resetStats();
 
       currentWeather = weather;
 
@@ -303,17 +291,17 @@
         case "Sunny":
           currentStats.speed += 5;
           break;
-        default:
-          break;
       }
+
       updateStatsDisplay();
     }
 
-    // Apply Faction Buffs and Debuffs
+    function resetStats() {
+      currentStats = { ...originalStats };
+    }
+
     function applyFaction() {
       const faction = document.getElementById("faction").value;
-      resetStats();  // Reset stats before applying new effect
-
       currentFaction = faction;
 
       switch (faction) {
@@ -321,20 +309,14 @@
           currentStats.armor += 20;
           break;
         case "Speed Boost":
-          currentStats.speed += 15;
+          currentStats.speed += 10;
           break;
         case "Heat Reduction":
           currentStats.maxHeat += 20;
           break;
-        default:
-          break;
       }
-      updateStatsDisplay();
-    }
 
-    // Reset Stats to Default
-    function resetStats() {
-      currentStats = { ...originalStats };
+      updateStatsDisplay();
     }
   </script>
 </body>
